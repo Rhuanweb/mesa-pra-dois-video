@@ -3,6 +3,9 @@ name: Reels do dia
 on:
   schedule:
     - cron: '20 3 * * *'   # 00h20 em Brasília, depois que a noite fecha (00h05)
+  push:
+    branches: [main]
+    paths: ['render.js', '.github/workflows/reels.yml', 'teste.txt']
   workflow_dispatch:
     inputs:
       pausado:
@@ -29,7 +32,7 @@ jobs:
       - name: Renderizar e subir
         env:
           MESA_VIDEO_TOKEN: ${{ secrets.MESA_VIDEO_TOKEN }}
-          PAUSADO: ${{ github.event_name == 'workflow_dispatch' && inputs.pausado && '1' || '' }}
+          PAUSADO: ${{ (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.pausado)) && '1' || '' }}
           REFAZER: ${{ github.event_name == 'workflow_dispatch' && inputs.refazer && '1' || '' }}
         run: node render.js
       - uses: actions/upload-artifact@v4
