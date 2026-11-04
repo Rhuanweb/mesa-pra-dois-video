@@ -1,0 +1,7 @@
+{
+  "name": "mesa-pra-dois-video",
+  "private": true,
+  "description": "Reels automático do Mesa pra Dois",
+  "scripts": { "render": "node render.js" },
+  "dependencies": { "playwright": "1.56.0" }
+}
