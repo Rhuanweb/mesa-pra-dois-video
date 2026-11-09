@@ -1,0 +1,44 @@
+name: Carrossel do dia
+
+on:
+  schedule:
+    - cron: '45 3 * * *'   # 00h45 em Brasília; a publicação é às 19h (Supabase)
+  push:
+    branches: [main]
+    paths: ['carrossel.js', '.github/workflows/carrossel.yml']
+  workflow_dispatch:
+    inputs:
+      pausado:
+        description: 'Só gerar as imagens, sem publicar no Instagram'
+        type: boolean
+        default: true
+      tema:
+        description: 'Forçar um tema (como_funciona, podio, missao, colecao, numeros, pontos, cartorio, natal) ou deixar vazio'
+        type: string
+        default: ''
+
+jobs:
+  carrossel:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-color-emoji
+      - name: Montar e subir o carrossel
+        env:
+          MESA_VIDEO_TOKEN: ${{ secrets.MESA_VIDEO_TOKEN }}
+          PAUSADO: ${{ (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.pausado)) && '1' || '' }}
+          TEMA: ${{ github.event_name == 'workflow_dispatch' && inputs.tema || '' }}
+        run: node carrossel.js
+      - uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: carrossel
+          path: saida/carrossel/*.jpg
+          retention-days: 7
+          if-no-files-found: ignore

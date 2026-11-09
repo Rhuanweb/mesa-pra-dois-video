@@ -8,6 +8,8 @@ Todo dia às 00h20 (Brasília) o GitHub Actions:
 
 Às 8h o cron `mesa-video-publicar` do Supabase publica o Reels no @mesapradois.3d.
 
+Às 00h45 o workflow "Carrossel do dia" monta um carrossel (tema que se reveza: como funciona, pódio, missão, coleção, números, pontos, cartório e Natal) e às 19h o cron `mesa-carrossel-publicar` publica.
+
 **Testar sem publicar:** Actions → "Reels do dia" → Run workflow (com "Só gerar o vídeo" marcado). O vídeo fica em Artifacts.
 
 Secret necessário no repositório: `MESA_VIDEO_TOKEN` (valor de `video_token` na tabela `mesa_estado`).
