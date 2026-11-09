@@ -33,6 +33,7 @@ const CAM = {
   terraco:  { view: 'terraco', orbita: [24, -20], zoom: [.55, .42] },
   caixas:   { view: 'andar',  a: [[0, 1, 0], [-3.2, 2.6, 3.6]], b: [[0, 1, 0], [2.6, 2.0, 3.0]] },
   caixas0:  { view: 'andar', orbita: [20, -20], zoom: [.9, .75] },
+  missao:   { view: 'andar', orbita: [-15, 25], zoom: [.8, .65] },
   cta:      { view: 'predio', a: [[0, -6, 0], [-20, 5, -60]],  b: [[0, -8, 0], [-40, 16, -95]] },
 };
 const ease = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
